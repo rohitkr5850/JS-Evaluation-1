@@ -8,7 +8,25 @@ const transactions = [
 ];
 
     function aggregateData(transactions){
-        
+
+        return transactions.reduce((acc , {category , amount}) => {
+            const data = acc[category] ?? {
+                totalAmount: 0,
+                count: 0,
+                highest: amount,
+                lowest:amount
+            };
+
+            data.totalAmount += amount;
+            data.count++;
+            data.highest = Math.max(data.highest , amount);
+            data.lowest = Math.min(data.lowest , amount);
+            data.averageAmount = +(data.totalAmount / data.count).toFixed(2);
+
+            acc[category] = data;
+            return acc;
+        }, {});
+
     }
 
 const result = aggregateData(transactions);
